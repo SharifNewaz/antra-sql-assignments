@@ -36,9 +36,28 @@ SELECT CONCAT(Name, ' ', Color)
 --    NAME: Chainring Bolts  --  COLOR: Silver
 --    NAME: Chainring Nut  --  COLOR: Silver
 --    NAME: Chainring  --  COLOR: Black
-SELECT CONCAT('NAME: ', Name, ' -- ', 'COLOR: ', Color)
+SELECT TOP(6) CONCAT('NAME: ', Name, ' -- ', 'COLOR: ', Color)
     From Production.Product
-    WHERE Name IN ('LL Crankarm','ML Crankarm','HL Crankarm', 'Chainring Bolts', 'Chainring Nut', 'Chainring') AND Color IN ('Black', 'Silver') 
+    WHERE Color IN ('Black', 'Silver') 
 
 -- 8) Write a query to retrieve the to the columns ProductID and Name from the Production.Product table filtered by ProductID from 400 to 500
+SELECT ProductID, Name
+    From Production.Product
+    WHERE ProductID BETWEEN 400 AND 500
 
+-- 9) Write a query to retrieve the to the columns  ProductID, Name and color from the Production.Product table restricted to the colors black and blue
+SELECT ProductID, Name, color
+    FROM Production.Product
+    WHERE Color IN('black','blue')
+
+-- 10) Write a query to get a result set on products that begins with the letter S.
+-- since it did not specify any column, using * to get all the column
+SELECT * 
+    From Production.Product
+    WHERE Name Like 'S%'
+
+-- 11) Write a query that retrieves the columns Name and ListPrice from the Production.Product table. Your result set should look something like the following. Order the result set by the Name column. 
+SELECT Top (6) Name, ListPrice
+    FROM Production.Product
+    WHERE Name Like 'S%' AND ListPrice IN (0, 53.99)
+    ORDER BY Name ASC
