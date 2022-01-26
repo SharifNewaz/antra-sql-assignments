@@ -86,12 +86,7 @@ SELECT DISTINCT Color
 
 -- 15) Write a query that retrieves the unique combination of columns ProductSubcategoryID and Color from the Production.Product table. 
 --     Format and sort so the result set accordingly to the following. We do not want any rows that are NULL.in any of the two columns in the result.
-    -- SELECT ProductSubcategoryID,  Color
-    --     FROM Production.Product
-    --     WHERE ProductSubcategoryID IS NOT NULL AND Color IS NOT NULL
-    --     ORDER BY ProductSubcategoryID
-
-    SELECT distinct ProductSubcategoryID,  Color
+SELECT DISTINCT ProductSubcategoryID,  Color
     FROM Production.Product
     WHERE ProductSubcategoryID IS NOT NULL AND Color IS NOT NULL
     ORDER BY ProductSubcategoryID ASC
