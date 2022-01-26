@@ -90,3 +90,4 @@ SELECT DISTINCT ProductSubcategoryID,  Color
     FROM Production.Product
     WHERE ProductSubcategoryID IS NOT NULL AND Color IS NOT NULL
     ORDER BY ProductSubcategoryID ASC
+    
