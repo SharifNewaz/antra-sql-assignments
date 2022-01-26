@@ -1,2 +1,2 @@
 # antra-sql-assignments
-Day 1: 
+Day 1: adventureWorksQuery.sql 
