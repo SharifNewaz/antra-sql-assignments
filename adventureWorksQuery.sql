@@ -56,8 +56,17 @@ SELECT *
     From Production.Product
     WHERE Name Like 'S%'
 
--- 11) Write a query that retrieves the columns Name and ListPrice from the Production.Product table. Your result set should look something like the following. Order the result set by the Name column. 
-SELECT Top (6) Name, ListPrice
+-- 11) Write a query that retrieves the columns Name and ListPrice from the Production.Product table. Your result set should look something like the following. Order the result set by the Name column.
+-- cast() function converts ListPrice to decimal number where you can have a decimal number with a maximal total precision of 5 digits(since I put 5), and 2 represents the numbers you see after the decimal
+-- REPLACE(number, '.', ',') replaces . to , in a number 
+SELECT Top (6) Name, REPLACE(cast(ListPrice as decimal(5,2)), '.',',') AS 'ListPrice'
     FROM Production.Product
-    WHERE Name Like 'S%' AND ListPrice IN (0, 53.99)
+    WHERE Name LIKE 'S%' AND ListPrice IN (0.00, 53.9900)
+    ORDER BY Name ASC
+
+-- 12) Write a query that retrieves the columns Name and ListPrice from the Production.Product table. Your result set should look something like the following. Order the result set by the Name column. 
+--     products name should start with either 'A' or 'S'
+SELECT TOP (5) Name, REPLACE(cast(ListPrice as decimal(5,2)), '.',',') AS 'ListPrice'
+    FROM Production.Product
+    WHERE Name LIKE '[A|S]%'
     ORDER BY Name ASC
