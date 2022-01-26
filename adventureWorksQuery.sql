@@ -51,7 +51,7 @@ SELECT ProductID, Name, color
     WHERE Color IN('black','blue')
 
 -- 10) Write a query to get a result set on products that begins with the letter S.
--- since it did not specify any column, using * to get all the column
+-- since the question did not specify any column, i'm assuming it's asling for al the column
 SELECT * 
     From Production.Product
     WHERE Name Like 'S%'
@@ -76,7 +76,7 @@ SELECT TOP (5) Name, REPLACE(cast(ListPrice as decimal(5,2)), '.',',') AS 'ListP
 SELECT Name
     FROM Production.Product
     WHERE name LIKE 'SPO[^K]%'
-    ORDER BY Name
+    ORDER BY Name ASC
 
 -- 14) Write a query that retrieves unique colors from the table Production.Product. Order the results  in descending  manner
 SELECT DISTINCT Color 
@@ -90,4 +90,3 @@ SELECT DISTINCT ProductSubcategoryID,  Color
     FROM Production.Product
     WHERE ProductSubcategoryID IS NOT NULL AND Color IS NOT NULL
     ORDER BY ProductSubcategoryID ASC
-    
