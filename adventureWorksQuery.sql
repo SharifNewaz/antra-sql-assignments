@@ -70,3 +70,30 @@ SELECT TOP (5) Name, REPLACE(cast(ListPrice as decimal(5,2)), '.',',') AS 'ListP
     FROM Production.Product
     WHERE Name LIKE '[A|S]%'
     ORDER BY Name ASC
+
+-- 13) Write a query so you retrieve rows that have a Name that begins with the letters SPO, but is then not followed by the letter K. After this zero or more letters can exists. 
+--     Order the result set by the Name column.
+SELECT Name
+    FROM Production.Product
+    WHERE name LIKE 'SPO[^K]%'
+    ORDER BY Name
+
+-- 14) Write a query that retrieves unique colors from the table Production.Product. Order the results  in descending  manner
+SELECT DISTINCT Color 
+    FROM Production.Product
+    WHERE Color IS NOT NULL
+    ORDER BY Color DESC
+
+-- 15) Write a query that retrieves the unique combination of columns ProductSubcategoryID and Color from the Production.Product table. 
+--     Format and sort so the result set accordingly to the following. We do not want any rows that are NULL.in any of the two columns in the result.
+    -- SELECT ProductSubcategoryID,  Color
+    --     FROM Production.Product
+    --     WHERE ProductSubcategoryID IS NOT NULL AND Color IS NOT NULL
+    --     ORDER BY ProductSubcategoryID
+
+    SELECT distinct ProductSubcategoryID,  Color
+    FROM Production.Product
+    WHERE ProductSubcategoryID IS NOT NULL AND Color IS NOT NULL
+    ORDER BY ProductSubcategoryID ASC
+
+
