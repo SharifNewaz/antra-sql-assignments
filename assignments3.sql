@@ -1,6 +1,4 @@
 -- List all cities that have both Employees and Customers.
-SELECT * FROM Employees --9
-SELECT * FROM Customers --91
 
 SELECT e.city from Employees e WHERE e.EmployeeID IS NOT NULL
 UNION
@@ -16,7 +14,6 @@ Where c.City IN (select City from Employees e Where e.City IS NULL)
 SELECT c.city from Customers c WHERE c.CustomerID IS NOT NULL
 UNION
 SELECT e.city from Employees e WHERE e.EmployeeID IS NULL
-
 
 -- List all products and their total order quantities throughout all orders.
 SELECT * FROM Products
@@ -57,7 +54,6 @@ GROUP BY c.city
 
 
 -- List all Customer Cities that have at least two customers.
-SELECT c.CustomerID, c.City FROM Customers c
 
 -- a. Use union
 SELECT c.City, sum(1) as "Total Customers"
@@ -99,7 +95,6 @@ ON c.CustomerID = o.CustomerID
 WHERE c.City != o.ShipCity
 
 -- List 5 most popular products, their average price, and the customer city that ordered most quantity of it.
-
 SELECT top 5 p.ProductName, avg(od.Quantity) AS "avg price"
 FROM Products p
 JOIN [Order Details] od
@@ -123,16 +118,6 @@ ORDER BY sum([total product ordered]) desc
 -- List all cities that have never ordered something but we have employees there.
 -- a.      Use sub-query
 -- b.      Do not use sub-query
-
-SELECT distinct  ShipCity  FROM Orders
--- SELECT  * FROM [Order Details]
-SELECT * FROM Customers 
-SELECT * from orders
-
-SELECT  c.city FROM Customers c WHERE c.City = 'Colchester'
-
-SELECT  o.shipcity FROM orders o WHERE o.shipcity = 'Colchester'
-
 
 SELECT distinct c.City 
 FROM Customers c
