@@ -35,13 +35,17 @@
 --10. What is SELF JOIN?
 -- Self Join is used to join a table to itself after temporally renaming. There's not key word like SELF JOIN, self join is achieved by key word like WHERE.
 
-
+select * from Production.Product
 --1. How many products can you find in the Production.Product table?
 SELECT COUNT(ProductID) AS "Number of Products" 
 FROM Production.Product;
 
 --2. Write a query that retrieves the number of products in the Production.Product table that are included in a subcategory.
 --   The rows that have NULL in column ProductSubcategoryID are considered to not be a part of any subcategory.	
+select count(ProductID) AS "Number of Products in A Category" 
+from Production.Product
+where ProductSubcategoryID is not NULL
+
 SELECT COUNT(ProductID) AS "Number of Products in A Category" 
 FROM Production.Product AS P
 WHERE P.ProductSubcategoryID IS NOT NULL;
@@ -49,35 +53,64 @@ WHERE P.ProductSubcategoryID IS NOT NULL;
 --3. How many Products reside in each SubCategory? Write a query to display the results with the following titles.
 --   ProductSubcategoryID   CountedProducts
       --------------       ---------------
+select  p.ProductSubcategoryID, count(ProductID) as "CountedProducts"
+from production.product p
+where ProductSubcategoryID is not null
+GROUP BY p.ProductSubcategoryID
+
 SELECT ProductSubcategoryID, COUNT(ProductID) AS " CountedProducts" 
 FROM Production.Product AS P
 WHERE P.ProductSubcategoryID IS NOT NULL
 GROUP BY ProductSubcategoryID;
 
 --4. How many products that do not have a product subcategory.
+select count(p.ProductID)
+from Production.Product p
+where p.ProductSubcategoryID is NULL
+
 SELECT COUNT(ProductID) AS "Number of Products Not in A Category" 
 FROM Production.Product AS P
 WHERE P.ProductSubcategoryID IS NULL;
 
+select * from Production.ProductInventory
 --5. Write a query to list the sum of products quantity in the Production.ProductInventory table.
+select p.ProductID, sum(p.Quantity) as "Sum"
+from Production.ProductInventory p
+group by ProductID
+
 SELECT SUM(Quantity) AS 'Summary of Products' 
 FROM Production.ProductInventory
 GROUP BY ProductID;
 
-
+select * from Production.ProductInventory
 --6. Write a query to list the sum of products in the Production.ProductInventory table and LocationID set to 40 and limit the result to include just summarized quantities less than 100.
 --   ProductID      TheSum
      -----------  ----------
+
+select ProductID, sum(Quantity) 
+from Production.ProductInventory
+where LocationID = 40
+GROUP BY ProductID
+HAVING sum(Quantity) < 100
+
 SELECT ProductID, SUM(Quantity) AS TheSum
 FROM Production.ProductInventory
 WHERE LocationID =40
 GROUP BY ProductID
 HAVING SUM(Quantity) < 100;
 
---7. Write a query to list the sum of products with the shelf information in the Production.
---   ProductInventory table and LocationID set to 40 and limit the result to include just summarized quantities less than 100
+--7. Write a query to list the sum of products with the shelf information in the Production.ProductInventory table and LocationID set to 40 
+--   and limit the result to include just summarized quantities less than 100
 --   Shelf      ProductID    TheSum
    ---------- -----------  -----------
+SELECT * from Production.ProductInventory
+
+select p.Shelf, p.ProductID, sum(p.quantity) as "sum"
+from Production.ProductInventory p
+where p.LocationID = 40 
+group by p.ProductID, p.Shelf
+HAVING sum(p.Quantity) < 100
+
 SELECT Shelf, ProductID, SUM(Quantity) AS TheSum
 FROM Production.ProductInventory
 WHERE LocationID =40
@@ -85,6 +118,14 @@ GROUP BY ProductID, Shelf
 HAVING SUM(Quantity) < 100;
 
 --8. Write the query to list the average quantity for products where column LocationID has the value of 10 from the table Production.ProductInventory table.
+SELECT * from Production.ProductInventory
+
+SELECT p.ProductID, avg(p.Quantity) 
+from Production.ProductInventory p
+where p.LocationID = 10
+group by p.ProductID
+
+
 SELECT ProductID, AVG(Quantity) AS TheAvg
 FROM Production.ProductInventory
 WHERE LocationID = 10
@@ -93,6 +134,10 @@ GROUP BY ProductID;
 --9. Write query to see the average quantity of products by shelf from the table Production.ProductInventory
 --    ProductID    Shelf        TheAvg
     -----------   ----------   -----------
+select p.ProductID, p.Shelf, avg(p.Quantity) as TheAvg
+from Production.ProductInventory p
+GROUP by p.ProductID, p.Shelf
+
 SELECT ProductID, Shelf, AVG(Quantity) AS TheAvg
 FROM Production.ProductInventory
 GROUP BY ProductID,Shelf;
@@ -100,26 +145,52 @@ GROUP BY ProductID,Shelf;
 --10. Write query to see the average quantity of products by shelf excluding rows that has the value of N/A in the column Shelf from the table Production.ProductInventory
 --     ProductID     Shelf         TheAvg
        ---------   ----------    -----------
+select  p.ProductID,  p.Shelf,   avg(Quantity) as TheAvg
+from Production.ProductInventory p
+where p.shelf <> 'N/A'
+group by  ProductID,  Shelf
+
+
 SELECT ProductID, Shelf, AVG(Quantity) AS TheAvg
 	FROM Production.ProductInventory
 	WHERE Shelf <> 'N/A'
 	GROUP BY ProductID, Shelf;
 
---11. List the members (rows) and average list price in the Production.Product table. 
---    This should be grouped independently over the Color and the Class column. 
+--11.  List the members (rows) and average list price in the Production.Product table. 
+--     This should be grouped independently over the Color and the Class column. 
 --     Exclude the rows where Color or Class are null.
 --     Color        Class   TheCount          AvgPrice
     -------------   -----   ----------- ---------------------
+SELECT TOP (1000) [ProductID]
+      ,[Name]
+      ,[ProductNumber]
+      ,[Color]
+      ,[ListPrice]
+      ,[Class]
+  FROM [AdventureWorks2019].[Production].[Product]
+
+select color, class, count(ProductID) as TheCount, avg(listprice) as AvgPrice
+from Production.Product
+where Color is not null and class is not null
+group by color, class
+
 SELECT Color, Class, Count(*) AS TheCount, AVG(ListPrice) AS AvgPrice
 FROM Production.Product
 WHERE Color IS NOT NULL AND Class IS NOT NULL
 GROUP BY Color, Class;
 
 --Joins:
---12. Write a query that lists the country and province names from person. 
---    CountryRegion and person. StateProvince tables. Join them and produce a result set similar to the following.
+--12. Write a query that lists the country and province names from person.CountryRegion and person.StateProvince tables. 
+--    Join them and produce a result set similar to the following.
 --    Country       Province
       ---------  --------------
+
+select c.Name, s.name
+from person.CountryRegion c
+join  person.StateProvince s
+on c.CountryRegionCode = s.CountryRegionCode 
+
+
 SELECT c.Name AS Country, s.Name AS Province 
 	FROM Person.CountryRegion c 
 	JOIN
