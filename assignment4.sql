@@ -144,3 +144,4 @@ WHERE MONTH(CONVERT(DateTime, e.birthdate)) = 5
 GO
 
 select * from birthday_employees_sharif
+
